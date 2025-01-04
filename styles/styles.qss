@@ -1,0 +1,63 @@
+/* styles.qss */
+
+/* General styling for the application */
+QWidget#centralWidget {
+    background-color: transparent;
+}
+
+/* Input text edit styling */
+QTextEdit#inputTextEdit {
+    background-color: rgba(0, 0, 0, 0.8); /* Black with transparency */
+    color: rgb(238, 130, 238); /* Bright violet text color */
+    border: 1px solid #A0A0A0;
+    font-family: "Segoe UI";
+    font-size: 9pt;
+    height: 100px;
+}
+
+/* Output text edit styling */
+QTextEdit#outputTextEdit {
+    background-color: rgba(0, 0, 0, 0.8); /* Black with transparency */
+    color: rgb(238, 130, 238); /* Bright violet text color */
+    border: 1px solid #A0A0A0;
+    font-family: "Segoe UI";
+    font-size: 9pt;
+}
+
+/* Send button styling */
+QPushButton#sendButton {
+    background-color: rgba(0, 0, 0, 0.8); /* Black with transparency */
+    color: rgb(238, 130, 238); /* Bright violet text color */
+    border: 1px solid #A0A0A0;
+    padding: 5px;
+    width: 80px;
+    font-family: "Segoe UI";
+    font-size: 9pt;
+}
+
+/* Send button hover effect */
+QPushButton#sendButton:hover {
+    background-color: rgba(30, 30, 30, 0.8);
+}
+
+
+/* Style for preformatted text */
+pre {
+    background-color: #2e3440; /* Dark background for code blocks */
+    color: #d8dee9; /* Light text color */
+    padding: 10px;
+    border-radius: 5px;
+    font-family: "Courier New", Courier, monospace;
+    font-size: 9pt;
+}
+
+/* Style for inline code */
+code {
+    background-color: #434c5e; /* Slightly lighter background */
+    color: #d8dee9; /* Light text color */
+    padding: 2px 4px;
+    border-radius: 3px;
+    font-family: "Courier New", Courier, monospace;
+    font-size: 9pt;
+}
+
