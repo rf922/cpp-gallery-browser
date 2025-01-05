@@ -1,63 +1,91 @@
 /* styles.qss */
 
 /* General styling for the application */
-QWidget#centralWidget {
-    background-color: transparent;
-}
+/* styles.qss */
 
-/* Input text edit styling */
-QTextEdit#inputTextEdit {
-    background-color: rgba(0, 0, 0, 0.8); /* Black with transparency */
-    color: rgb(238, 130, 238); /* Bright violet text color */
-    border: 1px solid #A0A0A0;
-    font-family: "Segoe UI";
-    font-size: 9pt;
-    height: 100px;
-}
-
-/* Output text edit styling */
-QTextEdit#outputTextEdit {
-    background-color: rgba(0, 0, 0, 0.8); /* Black with transparency */
-    color: rgb(238, 130, 238); /* Bright violet text color */
-    border: 1px solid #A0A0A0;
+/* General styling for the application */
+QWidget { 
+    background-color: #000000; /* Pure black background for the entire application */
+    color: #d8dee9; /* Light text color for all widgets */
     font-family: "Segoe UI";
     font-size: 9pt;
 }
 
-/* Send button styling */
-QPushButton#sendButton {
-    background-color: rgba(0, 0, 0, 0.8); /* Black with transparency */
-    color: rgb(238, 130, 238); /* Bright violet text color */
-    border: 1px solid #A0A0A0;
+/* Push Button styling */
+QPushButton {
+    background-color: #2e3440; /* Slightly darker background for buttons */
+    border: 1px solid #8a2be2; /* Neon purple border */
     padding: 5px;
-    width: 80px;
-    font-family: "Segoe UI";
-    font-size: 9pt;
+    border-radius: 5px; /* Add rounded corners */
+    color: #d8dee9; /* Light text color for buttons */
 }
 
-/* Send button hover effect */
-QPushButton#sendButton:hover {
-    background-color: rgba(30, 30, 30, 0.8);
+QPushButton:hover {
+    background-color: #434c5e; /* Darker shade on hover */
+    border: 1px solid #ff00ff; /* Neon pink border on hover */
 }
 
-
-/* Style for preformatted text */
-pre {
-    background-color: #2e3440; /* Dark background for code blocks */
-    color: #d8dee9; /* Light text color */
-    padding: 10px;
+/* QLabel styling (for the image label) */
+QLabel {
+    border: 1px solid #8a2be2; /* Neon purple border */
     border-radius: 5px;
-    font-family: "Courier New", Courier, monospace;
-    font-size: 9pt;
-}
-
-/* Style for inline code */
-code {
-    background-color: #434c5e; /* Slightly lighter background */
     color: #d8dee9; /* Light text color */
-    padding: 2px 4px;
-    border-radius: 3px;
-    font-family: "Courier New", Courier, monospace;
-    font-size: 9pt;
+    padding: 5px;
 }
 
+/* Styling for the active window or focused widget */
+QWidget:focus {
+    border: 2px solid #8a2be2; /* Purple border when focused */
+}
+
+/* Scrollbar styling */
+QScrollBar:vertical {
+    background-color: #2e3440;
+    border: 1px solid #8a2be2;
+    width: 10px;
+}
+
+QScrollBar:horizontal {
+    background-color: #2e3440;
+    border: 1px solid #8a2be2;
+    height: 10px;
+}
+
+/* Styling for text inputs (QLineEdit) */
+QLineEdit {
+    background-color: #3b4252; /* Darker background for input fields */
+    color: #d8dee9; /* Light text for inputs */
+    border: 1px solid #8a2be2; /* Neon purple border for inputs */
+    border-radius: 5px;
+    padding: 5px;
+}
+
+/* Styling for selected text */
+QTextEdit {
+    background-color: #3b4252;
+    color: #d8dee9;
+    border: 1px solid #8a2be2; /* Neon purple border */
+}
+
+/* Menu Bar Styling */
+QMenuBar {
+    background-color: #2e3440;
+    color: #d8dee9;
+    border-bottom: 2px solid #8a2be2;
+}
+
+QMenuBar::item {
+    padding: 5px;
+}
+
+QMenuBar::item:selected {
+    background-color: #434c5e; /* Dark hover effect */
+    color: #8a2be2; /* Neon purple text when selected */
+}
+
+/* Styling for the status bar */
+QStatusBar {
+    background-color: #2e3440;
+    color: #d8dee9;
+    border-top: 1px solid #8a2be2; /* Neon purple border on top */
+}

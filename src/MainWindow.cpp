@@ -3,8 +3,9 @@
  */
 
 
-#include "mainwindow.h"
+#include "MainWindow.h"
 #include <QFileInfo>
+#include <QDebug>
 #include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent)
@@ -12,19 +13,29 @@ MainWindow::MainWindow(QWidget *parent)
     // Create UI components
     imageLabel = new QLabel(this);
     imageLabel->setAlignment(Qt::AlignCenter);
+    imageLabel->setMinimumSize(800, 600); 
 
     nextButton = new QPushButton("Next", this);
     prevButton = new QPushButton("Previous", this);
 
+	// Button layout - Horizontal
+	QHBoxLayout *buttonLayout = new QHBoxLayout();
+    buttonLayout->addWidget(prevButton);
+    buttonLayout->addWidget(nextButton);
+
     // Layout setup
     layout = new QVBoxLayout();
     layout->addWidget(imageLabel);
-    layout->addWidget(nextButton);
-    layout->addWidget(prevButton);
+    layout->addLayout(buttonLayout);
 
     QWidget *centralWidget = new QWidget(this);
     centralWidget->setLayout(layout);
     setCentralWidget(centralWidget);
+
+    QFile file(":/styles/styles.qss");  
+	file.open(QFile::ReadOnly);
+	QString styleSheet = QLatin1String(file.readAll());
+	this->setStyleSheet(styleSheet);
 
     // Load images and display the first one
     loadImages();
@@ -33,6 +44,9 @@ MainWindow::MainWindow(QWidget *parent)
     // Connect buttons to slots
     connect(nextButton, &QPushButton::clicked, this, &MainWindow::showNextImage);
     connect(prevButton, &QPushButton::clicked, this, &MainWindow::showPreviousImage);
+
+
+	setMinimumSize(800, 600);
 }
 
 MainWindow::~MainWindow() {}
@@ -46,15 +60,18 @@ void MainWindow::keyPressEvent(QKeyEvent *event) {
 }
 
 void MainWindow::loadImages() {
+    qDebug() << "Directory Path: " << directoryPath;
+
     QDir dir(directoryPath);
     QStringList filters = {"*.png", "*.jpg", "*.jpeg"};
     imageFiles = dir.entryList(filters, QDir::Files);
 
     if (imageFiles.isEmpty()) {
-        QMessageBox::warning(this, "No Images", "No images found in the directory.");
+        QMessageBox::warning(this, "No Images", "No images found in the directory: " + directoryPath);
         close();
     }
 }
+
 
 void MainWindow::displayImage() {
     if (imageFiles.isEmpty()) return;

@@ -1,5 +1,5 @@
 /*
- * File : mainWindow.h
+ * File : MainWindow.h
  */
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
@@ -37,7 +37,8 @@ private:
 
     QStringList imageFiles;
     int currentIndex;
-    const QString directoryPath = "/path/to/your/images"; // Change this to your directory
+    const QString directoryPath = "/home/lavender/.local/share/Tachidesk/downloads/AllAnime (EN)/Koukaku Kidoutai_ Arise_ Sleepless Eye/Chapter 1/";
+
 };
 
 #endif // MAINWINDOW_H

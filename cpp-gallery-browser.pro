@@ -1,3 +1,13 @@
+#
+# File : cpp-gallery-browser.pro
+#
+
+
+
+
+
+
+
 # Project type and name
 TEMPLATE = app
 TARGET = cpp-gallery-browser
@@ -15,6 +25,9 @@ INCLUDEPATH += include
 
 DISTFILES += styles/styles.qss
 
+RESOURCES += styles/styles.qrc
+
+
 # Define the Qt modules to use
 QT += core gui widgets
 
@@ -22,7 +35,9 @@ QT += core gui widgets
 CONFIG += c++17
 
 # Directory where the images are located 
-DEFINES += IMAGE_DIR=\"/path/to/your/images\"
+DEFINES += IMAGE_DIR=\\\"/home/lavender/.local/share/Tachidesk/downloads/AllAnime\\ \\(EN\\)/Koukaku\\ Kidoutai_\\ Arise_\\ Sleepless\\ Eye/Chapter\\ 1/\\\"
+
+
 
 # Output paths for builds
 DESTDIR = build/bin
