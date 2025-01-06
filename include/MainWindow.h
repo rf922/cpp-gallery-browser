@@ -19,6 +19,8 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    void setDirectoryPath(const QString &path);
+
 protected:
     void keyPressEvent(QKeyEvent *event) override;
 
@@ -37,8 +39,7 @@ private:
 
     QStringList imageFiles;
     int currentIndex;
-    const QString directoryPath = "/home/lavender/.local/share/Tachidesk/downloads/AllAnime (EN)/Koukaku Kidoutai_ Arise_ Sleepless Eye/Chapter 1/";
-
+    QString directoryPath; 
 };
 
 #endif // MAINWINDOW_H

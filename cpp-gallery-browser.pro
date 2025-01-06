@@ -15,10 +15,12 @@ TARGET = cpp-gallery-browser
 # Include source and header files
 SOURCES += \
     src/main.cpp \
-    src/MainWindow.cpp
+    src/MainWindow.cpp \
+    src/DirectorySelector.cpp
 
 HEADERS += \
-    include/MainWindow.h
+    include/MainWindow.h \
+    include/DIrectorySelector.h
 
 # Add include paths for headers
 INCLUDEPATH += include

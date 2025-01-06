@@ -18,8 +18,8 @@ MainWindow::MainWindow(QWidget *parent)
     nextButton = new QPushButton("Next", this);
     prevButton = new QPushButton("Previous", this);
 
-	// Button layout - Horizontal
-	QHBoxLayout *buttonLayout = new QHBoxLayout();
+    // Button layout - Horizontal
+    QHBoxLayout *buttonLayout = new QHBoxLayout();
     buttonLayout->addWidget(prevButton);
     buttonLayout->addWidget(nextButton);
 
@@ -44,12 +44,16 @@ MainWindow::MainWindow(QWidget *parent)
     // Connect buttons to slots
     connect(nextButton, &QPushButton::clicked, this, &MainWindow::showNextImage);
     connect(prevButton, &QPushButton::clicked, this, &MainWindow::showPreviousImage);
-
-
-	setMinimumSize(800, 600);
+    setMinimumSize(800, 600);
 }
 
 MainWindow::~MainWindow() {}
+
+void MainWindow::setDirectoryPath(const QString &path){
+    directoryPath=path;
+    loadImages();
+    displayImage();
+}
 
 void MainWindow::keyPressEvent(QKeyEvent *event) {
     if (event->key() == Qt::Key_Right || event->key() == Qt::Key_N) {
