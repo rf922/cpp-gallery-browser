@@ -4,9 +4,13 @@
 
 
 #include "MainWindow.h"
+#include "DirectorySelector.h"
 #include <QFileInfo>
 #include <QDebug>
 #include <QMessageBox>
+#include <QMenuBar>
+#include <QMenu>
+#include <QAction>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), currentIndex(0) {
@@ -31,6 +35,15 @@ MainWindow::MainWindow(QWidget *parent)
     QWidget *centralWidget = new QWidget(this);
     centralWidget->setLayout(layout);
     setCentralWidget(centralWidget);
+
+    menuBar = new QMenuBar(this);
+    fileMenu = menuBar->addMenu("File");
+
+    openDirAction = new QAction("Open Directory", this);
+    fileMenu->addAction(openDirAction);
+
+    connect(openDirAction, &QAction::triggered, this, &MainWindow::openDirectorySelector);
+    setMenuBar(menuBar);
 
     QFile file(":/styles/styles.qss");  
     file.open(QFile::ReadOnly);
@@ -109,4 +122,13 @@ void MainWindow::showPreviousImage() {
 
     currentIndex = (currentIndex - 1 + imageFiles.size()) % imageFiles.size();
     displayImage();
+}
+
+void MainWindow::openDirectorySelector(){
+    DirectorySelector directorySelector(this);
+
+    if(directorySelector.exec() == QDialog::Accepted){
+        QString selectedDirectory = directorySelector.getSelectedDirectory();
+	setDirectoryPath(selectedDirectory);
+    }
 }

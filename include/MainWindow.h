@@ -11,6 +11,9 @@
 #include <QDir>
 #include <QKeyEvent>
 #include <QPixmap>
+#include <QMenuBar> 
+#include <QMenu>   
+#include <QAction>
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
@@ -27,6 +30,7 @@ protected:
 private slots:
     void showNextImage();
     void showPreviousImage();
+    void openDirectorySelector();
 
 private:
     void loadImages();
@@ -40,6 +44,10 @@ private:
     QStringList imageFiles;
     int currentIndex;
     QString directoryPath; 
+
+    QMenuBar *menuBar;
+    QMenu *fileMenu;
+    QAction *openDirAction;
 };
 
 #endif // MAINWINDOW_H
