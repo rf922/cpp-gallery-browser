@@ -33,9 +33,9 @@ MainWindow::MainWindow(QWidget *parent)
     setCentralWidget(centralWidget);
 
     QFile file(":/styles/styles.qss");  
-	file.open(QFile::ReadOnly);
-	QString styleSheet = QLatin1String(file.readAll());
-	this->setStyleSheet(styleSheet);
+    file.open(QFile::ReadOnly);
+    QString styleSheet = QLatin1String(file.readAll());
+    this->setStyleSheet(styleSheet);
 
     // Load images and display the first one
     loadImages();
@@ -64,15 +64,21 @@ void MainWindow::keyPressEvent(QKeyEvent *event) {
 }
 
 void MainWindow::loadImages() {
+    if(directoryPath.isEmpty()){
+        qDebug() << "Directory path is empty";
+	return;
+    }
     qDebug() << "Directory Path: " << directoryPath;
-
+    
     QDir dir(directoryPath);
     QStringList filters = {"*.png", "*.jpg", "*.jpeg"};
     imageFiles = dir.entryList(filters, QDir::Files);
 
     if (imageFiles.isEmpty()) {
         QMessageBox::warning(this, "No Images", "No images found in the directory: " + directoryPath);
-        close();
+        imageFiles.clear();
+    } else {
+        currentIndex=0;
     }
 }
 
