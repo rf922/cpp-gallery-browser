@@ -11,6 +11,12 @@
 
 int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
+    
+    QFile file (":/styles/styles.qss");
+    if(file.open(QFile::ReadOnly)){
+        QString styleSheet = QLatin1String(file.readAll());
+	app.setStyleSheet(styleSheet);
+    }
 
     DirectorySelector directorySelector;
 

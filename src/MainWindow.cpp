@@ -45,10 +45,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(openDirAction, &QAction::triggered, this, &MainWindow::openDirectorySelector);
     setMenuBar(menuBar);
 
-    QFile file(":/styles/styles.qss");  
-    file.open(QFile::ReadOnly);
-    QString styleSheet = QLatin1String(file.readAll());
-    this->setStyleSheet(styleSheet);
 
     // Load images and display the first one
     loadImages();
