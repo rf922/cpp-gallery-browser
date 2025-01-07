@@ -11,6 +11,7 @@
 #include <QMenuBar>
 #include <QMenu>
 #include <QAction>
+#include <QResizeEvent>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), currentIndex(0) {
@@ -104,6 +105,11 @@ void MainWindow::displayImage() {
     }
 
     imageLabel->setPixmap(pixmap.scaled(imageLabel->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+}
+
+void MainWindow::resizeEvent(QResizeEvent *event){
+    QMainWindow::resizeEvent(event);
+    displayImage();
 }
 
 void MainWindow::showNextImage() {

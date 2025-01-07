@@ -14,6 +14,8 @@
 #include <QMenuBar> 
 #include <QMenu>   
 #include <QAction>
+#include <QHBoxLayout>
+#include <QStringList>
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
@@ -26,7 +28,7 @@ public:
 
 protected:
     void keyPressEvent(QKeyEvent *event) override;
-
+    void resizeEvent(QResizeEvent *event) override;
 private slots:
     void showNextImage();
     void showPreviousImage();
