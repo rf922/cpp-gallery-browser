@@ -69,19 +69,39 @@ QTextEdit {
 
 /* Menu Bar Styling */
 QMenuBar {
-    background-color: #2e3440;
+    background-color: #000000;
     color: #d8dee9;
     border-bottom: 2px solid #8a2be2;
+    padding: 0px;
+    margin: 0px;
 }
 
 QMenuBar::item {
-    padding: 5px;
+    padding: 5px 10px;
+    background-color: transparent;
+    border: none;
 }
 
 QMenuBar::item:selected {
-    background-color: #434c5e; /* Dark hover effect */
+    background-color: transparent;
     color: #8a2be2; /* Neon purple text when selected */
 }
+
+QMenu {
+    background-color: #000000; /* Pure black for dropdown menus */
+    border: 1px solid #8a2be2; /* Neon purple border */
+    color: #d8dee9;           /* Text color for dropdown */
+}
+
+QMenu::item {
+    padding: 5px 20px;        /* Spacing for dropdown items */
+}
+
+QMenu::item:selected {
+    background-color: transparent; /* Subtle dark hover effect */
+    color: #8a2be2;           /* Neon purple for hovered items */
+}
+
 
 /* Styling for the status bar */
 QStatusBar {

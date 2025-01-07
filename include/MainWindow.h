@@ -11,6 +11,11 @@
 #include <QDir>
 #include <QKeyEvent>
 #include <QPixmap>
+#include <QMenuBar> 
+#include <QMenu>   
+#include <QAction>
+#include <QHBoxLayout>
+#include <QStringList>
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
@@ -19,12 +24,15 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    void setDirectoryPath(const QString &path);
+
 protected:
     void keyPressEvent(QKeyEvent *event) override;
-
+    void resizeEvent(QResizeEvent *event) override;
 private slots:
     void showNextImage();
     void showPreviousImage();
+    void openDirectorySelector();
 
 private:
     void loadImages();
@@ -37,8 +45,11 @@ private:
 
     QStringList imageFiles;
     int currentIndex;
-    const QString directoryPath = "/home/lavender/.local/share/Tachidesk/downloads/AllAnime (EN)/Koukaku Kidoutai_ Arise_ Sleepless Eye/Chapter 1/";
+    QString directoryPath; 
 
+    QMenuBar *menuBar;
+    QMenu *fileMenu;
+    QAction *openDirAction;
 };
 
 #endif // MAINWINDOW_H

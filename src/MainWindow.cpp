@@ -4,9 +4,14 @@
 
 
 #include "MainWindow.h"
+#include "DirectorySelector.h"
 #include <QFileInfo>
 #include <QDebug>
 #include <QMessageBox>
+#include <QMenuBar>
+#include <QMenu>
+#include <QAction>
+#include <QResizeEvent>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), currentIndex(0) {
@@ -18,8 +23,8 @@ MainWindow::MainWindow(QWidget *parent)
     nextButton = new QPushButton("Next", this);
     prevButton = new QPushButton("Previous", this);
 
-	// Button layout - Horizontal
-	QHBoxLayout *buttonLayout = new QHBoxLayout();
+    // Button layout - Horizontal
+    QHBoxLayout *buttonLayout = new QHBoxLayout();
     buttonLayout->addWidget(prevButton);
     buttonLayout->addWidget(nextButton);
 
@@ -32,10 +37,15 @@ MainWindow::MainWindow(QWidget *parent)
     centralWidget->setLayout(layout);
     setCentralWidget(centralWidget);
 
-    QFile file(":/styles/styles.qss");  
-	file.open(QFile::ReadOnly);
-	QString styleSheet = QLatin1String(file.readAll());
-	this->setStyleSheet(styleSheet);
+    menuBar = new QMenuBar(this);
+    fileMenu = menuBar->addMenu("File");
+
+    openDirAction = new QAction("Open Directory", this);
+    fileMenu->addAction(openDirAction);
+
+    connect(openDirAction, &QAction::triggered, this, &MainWindow::openDirectorySelector);
+    setMenuBar(menuBar);
+
 
     // Load images and display the first one
     loadImages();
@@ -44,12 +54,16 @@ MainWindow::MainWindow(QWidget *parent)
     // Connect buttons to slots
     connect(nextButton, &QPushButton::clicked, this, &MainWindow::showNextImage);
     connect(prevButton, &QPushButton::clicked, this, &MainWindow::showPreviousImage);
-
-
-	setMinimumSize(800, 600);
+    setMinimumSize(800, 600);
 }
 
 MainWindow::~MainWindow() {}
+
+void MainWindow::setDirectoryPath(const QString &path){
+    directoryPath=path;
+    loadImages();
+    displayImage();
+}
 
 void MainWindow::keyPressEvent(QKeyEvent *event) {
     if (event->key() == Qt::Key_Right || event->key() == Qt::Key_N) {
@@ -60,15 +74,21 @@ void MainWindow::keyPressEvent(QKeyEvent *event) {
 }
 
 void MainWindow::loadImages() {
+    if(directoryPath.isEmpty()){
+        qDebug() << "Directory path is empty";
+	return;
+    }
     qDebug() << "Directory Path: " << directoryPath;
-
+    
     QDir dir(directoryPath);
     QStringList filters = {"*.png", "*.jpg", "*.jpeg"};
     imageFiles = dir.entryList(filters, QDir::Files);
 
     if (imageFiles.isEmpty()) {
         QMessageBox::warning(this, "No Images", "No images found in the directory: " + directoryPath);
-        close();
+        imageFiles.clear();
+    } else {
+        currentIndex=0;
     }
 }
 
@@ -87,6 +107,11 @@ void MainWindow::displayImage() {
     imageLabel->setPixmap(pixmap.scaled(imageLabel->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
 }
 
+void MainWindow::resizeEvent(QResizeEvent *event){
+    QMainWindow::resizeEvent(event);
+    displayImage();
+}
+
 void MainWindow::showNextImage() {
     if (imageFiles.isEmpty()) return;
 
@@ -99,4 +124,13 @@ void MainWindow::showPreviousImage() {
 
     currentIndex = (currentIndex - 1 + imageFiles.size()) % imageFiles.size();
     displayImage();
+}
+
+void MainWindow::openDirectorySelector(){
+    DirectorySelector directorySelector(this);
+
+    if(directorySelector.exec() == QDialog::Accepted){
+        QString selectedDirectory = directorySelector.getSelectedDirectory();
+	setDirectoryPath(selectedDirectory);
+    }
 }

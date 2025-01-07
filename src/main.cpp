@@ -5,14 +5,31 @@
 
 
 #include "MainWindow.h"
+#include "DirectorySelector.h"
 #include <QApplication>
+
 
 int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
+    
+    QFile file (":/styles/styles.qss");
+    if(file.open(QFile::ReadOnly)){
+        QString styleSheet = QLatin1String(file.readAll());
+	app.setStyleSheet(styleSheet);
+    }
 
-    MainWindow mainWindow;
-    mainWindow.show();
+    DirectorySelector directorySelector;
 
-    return app.exec();
+    if(directorySelector.exec()){
+    	QString selectedDirectory = directorySelector.getSelectedDirectory();
+
+  	MainWindow mainWindow;
+	mainWindow.setDirectoryPath(selectedDirectory);
+      	mainWindow.show();
+
+	return app.exec();
+    }
+
+    return 0; // Exit on No directory selected
 }
 
