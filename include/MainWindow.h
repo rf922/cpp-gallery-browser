@@ -39,6 +39,9 @@ private:
     void displayImage();
     QString getNextSubdirectory();
 
+    QString parentDirectory;
+    
+
     QLabel *imageLabel;
     QPushButton *nextButton;
     QPushButton *prevButton;

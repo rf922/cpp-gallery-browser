@@ -60,6 +60,9 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow() {}
 
 void MainWindow::setDirectoryPath(const QString &path){
+    if(parentDirectory.isEmpty()){
+        parentDirectory = path;
+    }
     directoryPath=path;
     loadImages();
     displayImage();
@@ -125,6 +128,10 @@ void MainWindow::showNextImage() {
 		return;
 	    } else {
 	        QMessageBox::information(this, "No More Subdirectories", "There are no more subdirectories.");
+		QMessageBox::StandardButton restartReply = QMessageBox::question(this, "Restart from top directory ?","Start browsing from top directory ?",  QMessageBox::Yes | QMessageBox::No);
+		if(restartReply == QMessageBox::Yes){
+		    setDirectoryPath(parentDirectory);
+		}
                 return;
 	    }
 	
