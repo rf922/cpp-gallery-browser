@@ -6,8 +6,9 @@
 
 #include "MainWindow.h"
 #include "DirectorySelector.h"
+#include <QMainWindow>
 #include <QApplication>
-
+#include <QIcon>
 
 int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
@@ -17,6 +18,9 @@ int main(int argc, char *argv[]) {
         QString styleSheet = QLatin1String(file.readAll());
 	app.setStyleSheet(styleSheet);
     }
+
+    QIcon appIcon(":/icons/icon.png");  // The path should match the prefix and file path in the .qrc
+    app.setWindowIcon(appIcon);
 
     DirectorySelector directorySelector;
 
