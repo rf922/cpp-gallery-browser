@@ -27,7 +27,8 @@ INCLUDEPATH += include
 
 DISTFILES += styles/styles.qss
 
-RESOURCES += styles/styles.qrc
+RESOURCES += styles/styles.qrc \
+             resources/icons/icons.qrc
 
 
 # Define the Qt modules to use
