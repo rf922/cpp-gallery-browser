@@ -33,6 +33,7 @@ private slots:
     void showNextImage();
     void showPreviousImage();
     void openDirectorySelector();
+    void toggleNavigationButtons(bool visible);
 
 private:
     void loadImages();
@@ -53,7 +54,9 @@ private:
 
     QMenuBar *menuBar;
     QMenu *fileMenu;
+    QMenu *viewMenu;
     QAction *openDirAction;
+    QAction *toggleButtonsAction;
 };
 
 #endif // MAINWINDOW_H

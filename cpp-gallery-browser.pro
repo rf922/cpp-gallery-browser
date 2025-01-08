@@ -36,9 +36,6 @@ QT += core gui widgets
 # Set C++ standard
 CONFIG += c++17
 
-# Directory where the images are located 
-DEFINES += IMAGE_DIR=\\\"/home/lavender/.local/share/Tachidesk/downloads/AllAnime\\ \\(EN\\)/Koukaku\\ Kidoutai_\\ Arise_\\ Sleepless\\ Eye/Chapter\\ 1/\\\"
-
 
 
 # Output paths for builds

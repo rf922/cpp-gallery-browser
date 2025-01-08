@@ -23,6 +23,9 @@ MainWindow::MainWindow(QWidget *parent)
     nextButton = new QPushButton("Next", this);
     prevButton = new QPushButton("Previous", this);
 
+    nextButton->setVisible(false);
+    prevButton->setVisible(false);
+
     // Button layout - Horizontal
     QHBoxLayout *buttonLayout = new QHBoxLayout();
     buttonLayout->addWidget(prevButton);
@@ -39,10 +42,18 @@ MainWindow::MainWindow(QWidget *parent)
 
     menuBar = new QMenuBar(this);
     fileMenu = menuBar->addMenu("File");
+    viewMenu = menuBar->addMenu("View");
+
+    toggleButtonsAction = new QAction("Show Navigation Buttons", this);
+    toggleButtonsAction->setCheckable(true);
+    toggleButtonsAction->setChecked(false);
+    viewMenu->addAction(toggleButtonsAction);
 
     openDirAction = new QAction("Open Directory", this);
     fileMenu->addAction(openDirAction);
 
+    
+    connect(toggleButtonsAction, &QAction::toggled, this, &MainWindow::toggleNavigationButtons);
     connect(openDirAction, &QAction::triggered, this, &MainWindow::openDirectorySelector);
     setMenuBar(menuBar);
 
@@ -51,6 +62,8 @@ MainWindow::MainWindow(QWidget *parent)
     loadImages();
     displayImage();
 
+    this->setFocusPolicy(Qt::StrongFocus);
+
     // Connect buttons to slots
     connect(nextButton, &QPushButton::clicked, this, &MainWindow::showNextImage);
     connect(prevButton, &QPushButton::clicked, this, &MainWindow::showPreviousImage);
@@ -58,6 +71,11 @@ MainWindow::MainWindow(QWidget *parent)
 }
 
 MainWindow::~MainWindow() {}
+
+void MainWindow::toggleNavigationButtons(bool visible){
+    nextButton->setVisible(visible);
+    prevButton->setVisible(visible);
+}
 
 void MainWindow::setDirectoryPath(const QString &path){
     if(parentDirectory.isEmpty()){
