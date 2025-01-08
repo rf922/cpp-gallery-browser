@@ -20,7 +20,6 @@
 #include <QDir>
 #include <algorithm>
 
-
 class DirectorySelector : public QDialog {
     Q_OBJECT
 
@@ -28,17 +27,21 @@ public:
     explicit DirectorySelector(QWidget *parent = nullptr);
     QString getSelectedDirectory() const;
     QStringList getSubdirectories() const;
-    void populateSubdirectories(const QString &parentDir);
+
+    void updateSubdirectories(const QString &parentDir) {
+        populateSubdirectories(parentDir);
+    }
 
 private slots:
     void browseForDirectory();
-    //    void populateSubdirectories();
+    void populateSubdirectories(const QString &parentDir);
     void confirmSelection();
 
 private:
     int extractNumber(const QString& name);
     bool customSort(const QString& a, const QString& b);
-    
+    //void populateSubdirectories(const QString &parentDir);
+
     QLineEdit *parentDirectoryEdit;
     QListWidget *subdirectoryList;
     QPushButton *browseButton;

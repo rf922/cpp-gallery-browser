@@ -75,8 +75,6 @@ void DirectorySelector::populateSubdirectories(const QString &parentDir) {
 
 
 
-
-
     for (const QString &subdir : subdirectories) {
         subdirectoryList->addItem(subdir);
     }

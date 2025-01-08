@@ -120,7 +120,7 @@ void MainWindow::setDirectoryPath(const QString &path) {
 
     directoryPath = path;
     qDebug() << "[ MainWindow::setDirectoryPath ] Setting directory path to: " << directoryPath;
-    directorySelector->populateSubdirectories(parentDirectory);
+    directorySelector->updateSubdirectories(parentDirectory);
     loadImages();
     displayImage();
 }
@@ -230,10 +230,10 @@ QString MainWindow::getNextSubdirectory() {
     QDir dir(directoryPath);
     qDebug() << "[ MainWindow::getNextSubdirectory: ] : Directory path : " << directoryPath;
     dir.cdUp();
-    
+
     // QStringList subdirs = dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
 
-    directorySelector->populateSubdirectories(dir.absolutePath());
+    directorySelector->updateSubdirectories(dir.absolutePath());
     QStringList subdirs = directorySelector->getSubdirectories();
     qDebug() << "[ MainWindow::getNextSubdirectory: ] : Subdirectories : " << subdirs;
     int currentDirIndex = subdirs.indexOf(QFileInfo(directoryPath).fileName());
@@ -242,7 +242,7 @@ QString MainWindow::getNextSubdirectory() {
     if (currentDirIndex != -1 && currentDirIndex + 1 < subdirs.size()) {
         return dir.filePath(subdirs.at(currentDirIndex + 1));
     } else {
-        return dir.filePath(subdirs.at((currentDirIndex + 1)%subdirs.size()));        
+        return dir.filePath(subdirs.at((currentDirIndex + 1) % subdirs.size()));
     }
 
     return "";
