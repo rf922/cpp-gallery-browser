@@ -29,11 +29,20 @@ public:
 protected:
     void keyPressEvent(QKeyEvent *event) override;
     void resizeEvent(QResizeEvent *event) override;
+
+    void mouseDoubleClickEvent(QMouseEvent *event) override {
+        if (event->button() == Qt::LeftButton) {
+            toggleFullScreen();
+        }
+    }
+
+
 private slots:
     void showNextImage();
     void showPreviousImage();
     void openDirectorySelector();
     void toggleNavigationButtons(bool visible);
+    void toggleFullScreen();
 
 private:
     void loadImages();
@@ -57,6 +66,7 @@ private:
     QMenu *viewMenu;
     QAction *openDirAction;
     QAction *toggleButtonsAction;
+    QAction *toggleFullScreenAction;
 };
 
 #endif // MAINWINDOW_H

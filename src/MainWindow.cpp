@@ -11,6 +11,8 @@
 #include <QMenuBar>
 #include <QMenu>
 #include <QAction>
+#include <QFileDialog>
+#include <QMouseEvent>
 #include <QResizeEvent>
 
 MainWindow::MainWindow(QWidget *parent)
@@ -19,6 +21,8 @@ MainWindow::MainWindow(QWidget *parent)
     imageLabel = new QLabel(this);
     imageLabel->setAlignment(Qt::AlignCenter);
     imageLabel->setMinimumSize(800, 600); 
+    imageLabel->setAttribute(Qt::WA_Hover);
+
 
     nextButton = new QPushButton("Next", this);
     prevButton = new QPushButton("Previous", this);
@@ -49,6 +53,12 @@ MainWindow::MainWindow(QWidget *parent)
     toggleButtonsAction->setChecked(false);
     viewMenu->addAction(toggleButtonsAction);
 
+    toggleFullScreenAction = new QAction("Full Screen", this);
+    toggleFullScreenAction->setCheckable(true);
+    toggleFullScreenAction->setChecked(false);
+    viewMenu->addAction(toggleFullScreenAction);
+
+
     openDirAction = new QAction("Open Directory", this);
     fileMenu->addAction(openDirAction);
 
@@ -56,6 +66,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(toggleButtonsAction, &QAction::toggled, this, &MainWindow::toggleNavigationButtons);
     connect(openDirAction, &QAction::triggered, this, &MainWindow::openDirectorySelector);
     setMenuBar(menuBar);
+    connect(toggleFullScreenAction, &QAction::triggered, this, &MainWindow::toggleFullScreen);
 
 
     // Load images and display the first one
@@ -71,6 +82,22 @@ MainWindow::MainWindow(QWidget *parent)
 }
 
 MainWindow::~MainWindow() {}
+
+void MainWindow::toggleFullScreen(){
+    if(isFullScreen()){
+        showNormal();
+	menuBar->show();
+	nextButton->show();
+	prevButton->show();
+	toggleFullScreenAction->setChecked(false);
+    } else {
+        showFullScreen();
+	menuBar->hide();
+	nextButton->hide();
+	prevButton->hide();
+	toggleFullScreenAction->setChecked(true);
+    }
+}
 
 void MainWindow::toggleNavigationButtons(bool visible){
     nextButton->setVisible(visible);
