@@ -87,8 +87,8 @@ void MainWindow::toggleFullScreen(){
     if(isFullScreen()){
         showNormal();
 	menuBar->show();
-	nextButton->show();
-	prevButton->show();
+	nextButton->hide();
+	prevButton->hide();
 	toggleFullScreenAction->setChecked(false);
     } else {
         showFullScreen();
@@ -114,10 +114,14 @@ void MainWindow::setDirectoryPath(const QString &path){
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event) {
-    if (event->key() == Qt::Key_Right || event->key() == Qt::Key_N) {
+    int key = event->nativeVirtualKey();
+    qDebug() << "Key Pressed:" << event->key(); 
+    if (event->key() == Qt::Key_Right || event->key() == Qt::Key_N || event->key() == Qt::Key_Down ) {
         showNextImage();
-    } else if (event->key() == Qt::Key_Left || event->key() == Qt::Key_P) {
+    } else if (event->key() == Qt::Key_Left || event->key() == Qt::Key_P || event->key() == Qt::Key_Up) {
         showPreviousImage();
+    } else if (event->key() == Qt::Key_Alt){
+        toggleFullScreen();
     }
 }
 
