@@ -14,9 +14,10 @@
 #include <QFileDialog>
 #include <QMouseEvent>
 #include <QResizeEvent>
+#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent), currentIndex(0) {
+    : QMainWindow(parent), currentIndex(0), directorySelector(new DirectorySelector(this)) {
     // Create UI components
     imageLabel = new QLabel(this);
     imageLabel->setAlignment(Qt::AlignCenter);
@@ -81,9 +82,13 @@ MainWindow::MainWindow(QWidget *parent)
     setMinimumSize(800, 600);
 }
 
-MainWindow::~MainWindow() {}
+MainWindow::~MainWindow() {
+    delete directorySelector;
+}
 
 void MainWindow::toggleFullScreen(){
+    qDebug() << "[ MainWindow::toggleFullScreen ] : Call to Full Screen toggle ";
+
     if(isFullScreen()){
         showNormal();
 	menuBar->show();
@@ -100,22 +105,29 @@ void MainWindow::toggleFullScreen(){
 }
 
 void MainWindow::toggleNavigationButtons(bool visible){
+    qDebug() << "[ MainWindow::NavigationButtons ] : Call to Navigation Buttons toggle ";
+
     nextButton->setVisible(visible);
     prevButton->setVisible(visible);
 }
 
 void MainWindow::setDirectoryPath(const QString &path){
+    qDebug() << "[ MainWindow::setDirectoryPath ] Call to set directory path : " <<path;
+
     if(parentDirectory.isEmpty()){
         parentDirectory = path;
     }
+    
     directoryPath=path;
+    qDebug() << "[ MainWindow::setDirectoryPath ] Setting directory path to: " << directoryPath;
+    directorySelector->populateSubdirectories(parentDirectory);
     loadImages();
     displayImage();
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event) {
-    int key = event->nativeVirtualKey();
-    qDebug() << "Key Pressed:" << event->key(); 
+    //int key = event->nativeVirtualKey();
+    //qDebug() << "Key Pressed:" << event->key(); 
     if (event->key() == Qt::Key_Right || event->key() == Qt::Key_N || event->key() == Qt::Key_Down ) {
         showNextImage();
     } else if (event->key() == Qt::Key_Left || event->key() == Qt::Key_P || event->key() == Qt::Key_Up) {
@@ -126,11 +138,13 @@ void MainWindow::keyPressEvent(QKeyEvent *event) {
 }
 
 void MainWindow::loadImages() {
+    qDebug() << "[ MainWindow::loadImages ] : Loading images ...";
+
     if(directoryPath.isEmpty()){
-        qDebug() << "Directory path is empty";
+        qDebug() << "[ MainWindow::loadImages ] : Directory path is empty";
 	return;
     }
-    qDebug() << "Directory Path: " << directoryPath;
+    qDebug() << "[ MainWindow::loadImages ] : Directory Path: " << directoryPath;
     
     QDir dir(directoryPath);
     QStringList filters = {"*.png", "*.jpg", "*.jpeg"};
@@ -206,21 +220,24 @@ void MainWindow::openDirectorySelector(){
 
     if(directorySelector.exec() == QDialog::Accepted){
         QString selectedDirectory = directorySelector.getSelectedDirectory();
+    	qDebug() << "[ MainWindow::openDirectorySelector ] : Selected Directory :" << selectedDirectory;
 	setDirectoryPath(selectedDirectory);
+	QStringList subdirectories = directorySelector.getSubdirectories();
+	qDebug() << "[ MainWindow::openDirectorySelector ] : Subdirectories:" << subdirectories;
     }
 
 }
 
 QString MainWindow::getNextSubdirectory() {
     QDir dir(directoryPath);
+    qDebug() << "[ MainWindow::getNextSubdirectory: ] : Directory path : " << directoryPath;
     dir.cdUp(); 
 
-    QStringList subdirs = dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
+   // QStringList subdirs = dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
 
-    std::sort(subdirs.begin(), subdirs.end(), [](const QString &a, const QString &b) {
-        return a.localeAwareCompare(b) < 0;
-    });
-
+    directorySelector->populateSubdirectories(dir.absolutePath());
+    QStringList subdirs = directorySelector->getSubdirectories();
+    qDebug() << "[ MainWindow::getNextSubdirectory: ] : Subdirectories : " << subdirs;
     int currentDirIndex = subdirs.indexOf(QFileInfo(directoryPath).fileName());
 
     if (currentDirIndex != -1 && currentDirIndex + 1 < subdirs.size()) {

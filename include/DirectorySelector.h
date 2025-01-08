@@ -26,10 +26,12 @@ class DirectorySelector : public QDialog {
 public:
     explicit DirectorySelector(QWidget *parent = nullptr);
     QString getSelectedDirectory() const;
+    QStringList getSubdirectories() const;
+    void populateSubdirectories(const QString &parentDir);
 
 private slots:
     void browseForDirectory();
-    void populateSubdirectories();
+//    void populateSubdirectories();
     void confirmSelection();
 
 private:
@@ -39,6 +41,7 @@ private:
     QPushButton *confirmButton;
     QPushButton *cancelButton;
 
+    QStringList subdirectories;
     QString selectedDirectory;
 };
 

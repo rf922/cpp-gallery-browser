@@ -3,6 +3,7 @@
  *
  */
 
+#include <QDebug>
 #include "DirectorySelector.h"
 
 DirectorySelector::DirectorySelector(QWidget *parent) : QDialog(parent), selectedDirectory("") {
@@ -32,39 +33,52 @@ DirectorySelector::DirectorySelector(QWidget *parent) : QDialog(parent), selecte
     connect(browseButton, &QPushButton::clicked, this, &DirectorySelector::browseForDirectory);
     connect(confirmButton, &QPushButton::clicked, this, &DirectorySelector::confirmSelection);
     connect(cancelButton, &QPushButton::clicked, this, &QDialog::reject);
-    connect(parentDirectoryEdit, &QLineEdit::textChanged, this, &DirectorySelector::populateSubdirectories);
+//    connect(parentDirectoryEdit, &QLineEdit::textChanged, this, &DirectorySelector::populateSubdirectories);
 }
 
-QString DirectorySelector::getSelectedDirectory() const {
+QString DirectorySelector::getSelectedDirectory() const {    
     return selectedDirectory;
 }
 
+QStringList DirectorySelector::getSubdirectories() const {
+    return subdirectories; 
+}
+
 void DirectorySelector::browseForDirectory() {
+    qDebug() << "[ DirectorySelector::broseForDirectory ] : Browsing for Directory ...";
     QString directory = QFileDialog::getExistingDirectory(this, "Select Parent Directory");
     if (!directory.isEmpty()) {
         parentDirectoryEdit->setText(directory);
+        qDebug() << "[ DirectorySelector::broseForDirectory ] : Selected :" << directory;
+	    populateSubdirectories(directory);
+        qDebug() << "[ DirectorySelector::broseForDirectory ] : Subdirectories Populated :" << subdirectories;
     }
 }
 
-void DirectorySelector::populateSubdirectories() {
-    QString parentDir = parentDirectoryEdit->text();
+void DirectorySelector::populateSubdirectories(const QString &parentDir) {
+    //QString parentDir = parentDirectoryEdit->text();
+    qDebug() << "[ DirectorySelector::populateSubdirectories ] : Populating subdirectories ...";
+    qDebug() << "[ DirectorySelector::populateSubdirectories ] : Parent Directory : " << parentDir;
     QDir dir(parentDir);
 
-    if (!dir.exists()) return;
+    if (!dir.exists() || parentDir == selectedDirectory) return;
 
     dir.setFilter(QDir::Dirs | QDir::NoDotAndDotDot);
     subdirectoryList->clear();
 
-    QStringList subdirs = dir.entryList();
+    subdirectories = dir.entryList();
+    qDebug() << "[ DirectorySelector::populateSubdirectories ] : Subdirectories found: " << subdirectories;
 
-    std::sort(subdirs.begin(), subdirs.end(), [](const QString &a, const QString &b) {
+    std::sort(subdirectories.begin(), subdirectories.end(), [](const QString &a, const QString &b) {
         return a.localeAwareCompare(b) < 0;
     });
 
 
-    for (const QString &subdir : subdirs) {
+    for (const QString &subdir : subdirectories) {
         subdirectoryList->addItem(subdir);
     }
+    qDebug() << "[ DirectorySelector::populateSubdirectories ] : Subdirectories after sort: " << subdirectories;
+
 }
 
 void DirectorySelector::confirmSelection() {

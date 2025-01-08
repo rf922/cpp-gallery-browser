@@ -17,6 +17,8 @@
 #include <QHBoxLayout>
 #include <QStringList>
 
+#include "DirectorySelector.h"
+
 class MainWindow : public QMainWindow {
     Q_OBJECT
 
@@ -67,6 +69,7 @@ private:
     QAction *openDirAction;
     QAction *toggleButtonsAction;
     QAction *toggleFullScreenAction;
+    DirectorySelector *directorySelector;
 };
 
 #endif // MAINWINDOW_H
