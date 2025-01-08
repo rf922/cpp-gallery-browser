@@ -115,9 +115,28 @@ void MainWindow::resizeEvent(QResizeEvent *event){
 void MainWindow::showNextImage() {
     if (imageFiles.isEmpty()) return;
 
+    if(currentIndex == imageFiles.size() -1){
+        QMessageBox::StandardButton reply = QMessageBox::question(
+	    this, "End Of Directory", "Move to next Subdirectory?",QMessageBox::Yes | QMessageBox::No);
+	if(reply == QMessageBox::Yes){
+	    QString nextSubdirectory = getNextSubdirectory();
+	    if(!nextSubdirectory.isEmpty()){
+	        setDirectoryPath(nextSubdirectory);
+		return;
+	    } else {
+	        QMessageBox::information(this, "No More Subdirectories", "There are no more subdirectories.");
+                return;
+	    }
+	
+	}
+
+    }
+
+
     currentIndex = (currentIndex + 1) % imageFiles.size();
     displayImage();
 }
+
 
 void MainWindow::showPreviousImage() {
     if (imageFiles.isEmpty()) return;
@@ -133,4 +152,20 @@ void MainWindow::openDirectorySelector(){
         QString selectedDirectory = directorySelector.getSelectedDirectory();
 	setDirectoryPath(selectedDirectory);
     }
+
 }
+
+QString MainWindow::getNextSubdirectory() {
+    QDir dir(directoryPath);
+    dir.cdUp(); 
+
+    QStringList subdirs = dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
+    int currentDirIndex = subdirs.indexOf(QFileInfo(directoryPath).fileName());
+
+    if (currentDirIndex != -1 && currentDirIndex + 1 < subdirs.size()) {
+        return dir.filePath(subdirs.at(currentDirIndex + 1));
+    }
+
+    return "";
+}
+

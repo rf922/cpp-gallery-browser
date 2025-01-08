@@ -37,6 +37,7 @@ private slots:
 private:
     void loadImages();
     void displayImage();
+    QString getNextSubdirectory();
 
     QLabel *imageLabel;
     QPushButton *nextButton;
