@@ -216,6 +216,11 @@ QString MainWindow::getNextSubdirectory() {
     dir.cdUp(); 
 
     QStringList subdirs = dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
+
+    std::sort(subdirs.begin(), subdirs.end(), [](const QString &a, const QString &b) {
+        return a.localeAwareCompare(b) < 0;
+    });
+
     int currentDirIndex = subdirs.indexOf(QFileInfo(directoryPath).fileName());
 
     if (currentDirIndex != -1 && currentDirIndex + 1 < subdirs.size()) {

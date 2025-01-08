@@ -56,6 +56,12 @@ void DirectorySelector::populateSubdirectories() {
     subdirectoryList->clear();
 
     QStringList subdirs = dir.entryList();
+
+    std::sort(subdirs.begin(), subdirs.end(), [](const QString &a, const QString &b) {
+        return a.localeAwareCompare(b) < 0;
+    });
+
+
     for (const QString &subdir : subdirs) {
         subdirectoryList->addItem(subdir);
     }
