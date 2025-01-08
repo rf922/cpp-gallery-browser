@@ -18,6 +18,8 @@
 #include <QHBoxLayout>
 #include <QFileDialog>
 #include <QDir>
+#include <algorithm>
+
 
 class DirectorySelector : public QDialog {
     Q_OBJECT
@@ -34,6 +36,9 @@ private slots:
     void confirmSelection();
 
 private:
+    int extractNumber(const QString& name);
+    bool customSort(const QString& a, const QString& b);
+    
     QLineEdit *parentDirectoryEdit;
     QListWidget *subdirectoryList;
     QPushButton *browseButton;

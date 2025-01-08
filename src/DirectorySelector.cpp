@@ -61,7 +61,7 @@ void DirectorySelector::populateSubdirectories(const QString &parentDir) {
     qDebug() << "[ DirectorySelector::populateSubdirectories ] : Parent Directory : " << parentDir;
     QDir dir(parentDir);
 
-    if (!dir.exists() ) return;
+    if (!dir.exists()) return;
 
     dir.setFilter(QDir::Dirs | QDir::NoDotAndDotDot);
     subdirectoryList->clear();
@@ -69,9 +69,12 @@ void DirectorySelector::populateSubdirectories(const QString &parentDir) {
     subdirectories = dir.entryList();
     qDebug() << "[ DirectorySelector::populateSubdirectories ] : Subdirectories found: " << subdirectories;
 
-    std::sort(subdirectories.begin(), subdirectories.end(), [](const QString &a, const QString & b) {
-        return a.localeAwareCompare(b) < 0;
+    std::sort(subdirectories.begin(), subdirectories.end(), [this](const QString &a, const QString & b) {
+        return customSort(a, b);
     });
+
+
+
 
 
     for (const QString &subdir : subdirectories) {
@@ -88,4 +91,34 @@ void DirectorySelector::confirmSelection() {
         accept();
     }
 }
+
+int DirectorySelector::extractNumber(const QString& name) {
+    int pos = name.indexOf(' ');
+    if (pos == -1) {
+        return -1;
+    }
+    QString numberPart = name.mid(pos + 1);
+
+    // Remove non-digit characters
+    int firstNonDigit = numberPart.indexOf(QRegExp("[^0-9]"));
+    if (firstNonDigit != -1) {
+        numberPart = numberPart.left(firstNonDigit);
+    }
+
+    bool ok;
+    int number = numberPart.toInt(&ok);
+    return ok ? number : -1;
+}
+
+bool DirectorySelector::customSort(const QString& a, const QString& b) {
+    int numA = extractNumber(a);
+    int numB = extractNumber(b);
+
+    if (numA != numB) {
+        return numA < numB;
+    }
+
+    return a < b;
+}
+
 

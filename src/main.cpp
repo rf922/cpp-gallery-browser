@@ -19,7 +19,7 @@ int main(int argc, char *argv[]) {
         app.setStyleSheet(styleSheet);
     }
 
-    QIcon appIcon(":/icons/icon.png"); // The path should match the prefix and file path in the .qrc
+    QIcon appIcon(":/icons/icon.png"); 
     app.setWindowIcon(appIcon);
 
     DirectorySelector directorySelector;
