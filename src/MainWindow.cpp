@@ -230,16 +230,19 @@ QString MainWindow::getNextSubdirectory() {
     QDir dir(directoryPath);
     qDebug() << "[ MainWindow::getNextSubdirectory: ] : Directory path : " << directoryPath;
     dir.cdUp();
-
+    
     // QStringList subdirs = dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
 
     directorySelector->populateSubdirectories(dir.absolutePath());
     QStringList subdirs = directorySelector->getSubdirectories();
     qDebug() << "[ MainWindow::getNextSubdirectory: ] : Subdirectories : " << subdirs;
     int currentDirIndex = subdirs.indexOf(QFileInfo(directoryPath).fileName());
+    qDebug() << "[ MainWindow::getNextSubdirectory: ] : current Directory Index : " << currentDirIndex;
 
     if (currentDirIndex != -1 && currentDirIndex + 1 < subdirs.size()) {
         return dir.filePath(subdirs.at(currentDirIndex + 1));
+    } else {
+        return dir.filePath(subdirs.at((currentDirIndex + 1)%subdirs.size()));        
     }
 
     return "";

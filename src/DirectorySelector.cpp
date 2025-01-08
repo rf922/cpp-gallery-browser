@@ -33,7 +33,7 @@ DirectorySelector::DirectorySelector(QWidget *parent) : QDialog(parent), selecte
     connect(browseButton, &QPushButton::clicked, this, &DirectorySelector::browseForDirectory);
     connect(confirmButton, &QPushButton::clicked, this, &DirectorySelector::confirmSelection);
     connect(cancelButton, &QPushButton::clicked, this, &QDialog::reject);
-    //    connect(parentDirectoryEdit, &QLineEdit::textChanged, this, &DirectorySelector::populateSubdirectories);
+    //connect(parentDirectoryEdit, &QLineEdit::textChanged, this, &DirectorySelector::populateSubdirectories);
 }
 
 QString DirectorySelector::getSelectedDirectory() const {
@@ -61,7 +61,7 @@ void DirectorySelector::populateSubdirectories(const QString &parentDir) {
     qDebug() << "[ DirectorySelector::populateSubdirectories ] : Parent Directory : " << parentDir;
     QDir dir(parentDir);
 
-    if (!dir.exists() || parentDir == selectedDirectory) return;
+    if (!dir.exists() ) return;
 
     dir.setFilter(QDir::Dirs | QDir::NoDotAndDotDot);
     subdirectoryList->clear();
