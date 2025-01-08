@@ -19,7 +19,6 @@
 #include <QFileDialog>
 #include <QDir>
 
-
 class DirectorySelector : public QDialog {
     Q_OBJECT
 
@@ -31,7 +30,7 @@ public:
 
 private slots:
     void browseForDirectory();
-//    void populateSubdirectories();
+    //    void populateSubdirectories();
     void confirmSelection();
 
 private:

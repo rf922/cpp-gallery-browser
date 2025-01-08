@@ -52,7 +52,7 @@ private:
     QString getNextSubdirectory();
 
     QString parentDirectory;
-    
+
 
     QLabel *imageLabel;
     QPushButton *nextButton;
@@ -61,7 +61,7 @@ private:
 
     QStringList imageFiles;
     int currentIndex;
-    QString directoryPath; 
+    QString directoryPath;
 
     QMenuBar *menuBar;
     QMenu *fileMenu;

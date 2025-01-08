@@ -12,26 +12,26 @@
 
 int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
-    
-    QFile file (":/styles/styles.qss");
-    if(file.open(QFile::ReadOnly)){
+
+    QFile file(":/styles/styles.qss");
+    if (file.open(QFile::ReadOnly)) {
         QString styleSheet = QLatin1String(file.readAll());
-	app.setStyleSheet(styleSheet);
+        app.setStyleSheet(styleSheet);
     }
 
-    QIcon appIcon(":/icons/icon.png");  // The path should match the prefix and file path in the .qrc
+    QIcon appIcon(":/icons/icon.png"); // The path should match the prefix and file path in the .qrc
     app.setWindowIcon(appIcon);
 
     DirectorySelector directorySelector;
 
-    if(directorySelector.exec()){
-    	QString selectedDirectory = directorySelector.getSelectedDirectory();
+    if (directorySelector.exec()) {
+        QString selectedDirectory = directorySelector.getSelectedDirectory();
 
-  	MainWindow mainWindow;
-	mainWindow.setDirectoryPath(selectedDirectory);
-      	mainWindow.show();
+        MainWindow mainWindow;
+        mainWindow.setDirectoryPath(selectedDirectory);
+        mainWindow.show();
 
-	return app.exec();
+        return app.exec();
     }
 
     return 0; // Exit on No directory selected

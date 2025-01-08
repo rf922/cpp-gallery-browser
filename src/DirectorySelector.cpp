@@ -33,15 +33,15 @@ DirectorySelector::DirectorySelector(QWidget *parent) : QDialog(parent), selecte
     connect(browseButton, &QPushButton::clicked, this, &DirectorySelector::browseForDirectory);
     connect(confirmButton, &QPushButton::clicked, this, &DirectorySelector::confirmSelection);
     connect(cancelButton, &QPushButton::clicked, this, &QDialog::reject);
-//    connect(parentDirectoryEdit, &QLineEdit::textChanged, this, &DirectorySelector::populateSubdirectories);
+    //    connect(parentDirectoryEdit, &QLineEdit::textChanged, this, &DirectorySelector::populateSubdirectories);
 }
 
-QString DirectorySelector::getSelectedDirectory() const {    
+QString DirectorySelector::getSelectedDirectory() const {
     return selectedDirectory;
 }
 
 QStringList DirectorySelector::getSubdirectories() const {
-    return subdirectories; 
+    return subdirectories;
 }
 
 void DirectorySelector::browseForDirectory() {
@@ -50,7 +50,7 @@ void DirectorySelector::browseForDirectory() {
     if (!directory.isEmpty()) {
         parentDirectoryEdit->setText(directory);
         qDebug() << "[ DirectorySelector::broseForDirectory ] : Selected :" << directory;
-	    populateSubdirectories(directory);
+        populateSubdirectories(directory);
         qDebug() << "[ DirectorySelector::broseForDirectory ] : Subdirectories Populated :" << subdirectories;
     }
 }
@@ -69,7 +69,7 @@ void DirectorySelector::populateSubdirectories(const QString &parentDir) {
     subdirectories = dir.entryList();
     qDebug() << "[ DirectorySelector::populateSubdirectories ] : Subdirectories found: " << subdirectories;
 
-    std::sort(subdirectories.begin(), subdirectories.end(), [](const QString &a, const QString &b) {
+    std::sort(subdirectories.begin(), subdirectories.end(), [](const QString &a, const QString & b) {
         return a.localeAwareCompare(b) < 0;
     });
 
