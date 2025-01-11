@@ -21,7 +21,7 @@ MainWindow::MainWindow(QWidget *parent)
     // Create UI components
     imageLabel = new QLabel(this);
     imageLabel->setAlignment(Qt::AlignCenter);
-    imageLabel->setMinimumSize(800, 600);
+    imageLabel->setMinimumSize(600, 400);
     imageLabel->setAttribute(Qt::WA_Hover);
 
 
@@ -79,7 +79,7 @@ MainWindow::MainWindow(QWidget *parent)
     // Connect buttons to slots
     connect(nextButton, &QPushButton::clicked, this, &MainWindow::showNextImage);
     connect(prevButton, &QPushButton::clicked, this, &MainWindow::showPreviousImage);
-    setMinimumSize(800, 600);
+    setMinimumSize(600, 400);
 }
 
 MainWindow::~MainWindow() {
