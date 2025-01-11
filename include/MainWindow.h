@@ -17,6 +17,8 @@
 #include <QHBoxLayout>
 #include <QStringList>
 
+#include "DirectorySelector.h"
+
 class MainWindow : public QMainWindow {
     Q_OBJECT
 
@@ -50,7 +52,7 @@ private:
     QString getNextSubdirectory();
 
     QString parentDirectory;
-    
+
 
     QLabel *imageLabel;
     QPushButton *nextButton;
@@ -59,7 +61,7 @@ private:
 
     QStringList imageFiles;
     int currentIndex;
-    QString directoryPath; 
+    QString directoryPath;
 
     QMenuBar *menuBar;
     QMenu *fileMenu;
@@ -67,6 +69,7 @@ private:
     QAction *openDirAction;
     QAction *toggleButtonsAction;
     QAction *toggleFullScreenAction;
+    DirectorySelector *directorySelector;
 };
 
 #endif // MAINWINDOW_H
